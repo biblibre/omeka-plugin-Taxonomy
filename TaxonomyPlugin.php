@@ -54,7 +54,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
     {
         $nav[] = array(
             'label' => __('Taxonomy'),
-            'uri' => url('taxonomy'),
+            'uri' => url('taxonomy/taxonomy/list'),
         );
         return $nav;
     }

@@ -2,6 +2,11 @@
 
 class Taxonomy_TaxonomyController extends Omeka_Controller_AbstractActionController
 {
+    public function listAction()
+    {
+        $this->view->taxonomies = $this->_getTaxonomies();
+    }
+
     public function addAction()
     {
     }
@@ -21,7 +26,7 @@ class Taxonomy_TaxonomyController extends Omeka_Controller_AbstractActionControl
         $confirm = $this->_getParam('confirm');
         if ($confirm) {
             $taxonomy->delete();
-            $this->_helper->redirector('index', 'index');
+            $this->_helper->redirector('list');
             return;
         }
 
@@ -39,7 +44,14 @@ class Taxonomy_TaxonomyController extends Omeka_Controller_AbstractActionControl
         $taxonomy->name = $name;
         $taxonomy->save();
 
-        $this->_helper->redirector('index', 'index');
+        $this->_helper->redirector('list');
+    }
+
+    protected function _getTaxonomies()
+    {
+        return get_db()
+            ->getTable('Taxonomy')
+            ->findAll();
     }
 
     protected function _getTaxonomy($taxonomy_id)

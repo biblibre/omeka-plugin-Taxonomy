@@ -25,7 +25,7 @@ msgstr "Taxonomie"
 msgid "Taxonomy term"
 msgstr "Terme de taxonomie"
 
-#: views/admin/taxonomy/add.php:1 views/admin/index/index.php:4
+#: views/admin/taxonomy/add.php:1 views/admin/taxonomy/list.php:4
 msgid "Add a new taxonomy"
 msgstr "Ajouter une nouvelle taxonomie"
 
@@ -47,15 +47,15 @@ msgstr "Supprimer la taxonomie"
 msgid "Are you sure you want to delete taxonomy %s ?"
 msgstr "Voulez-vous vraiment supprimer la taxonomie %s ?"
 
-#: views/admin/index/index.php:1
+#: views/admin/taxonomy/list.php:1
 msgid "Taxonomies"
 msgstr "Taxonomies"
 
-#: views/admin/index/index.php:11 views/admin/taxonomy-term/list.php:12
+#: views/admin/taxonomy/list.php:11 views/admin/taxonomy-term/list.php:12
 msgid "Actions"
 msgstr "Actions"
 
-#: views/admin/index/index.php:19
+#: views/admin/taxonomy/list.php:19
 msgid "List terms"
 msgstr "Lister les termes"
 
