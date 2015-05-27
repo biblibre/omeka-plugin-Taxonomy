@@ -18,9 +18,9 @@
           <td><?php echo $term['code']; ?></td>
           <td><?php echo $term['value']; ?></td>
           <td>
-            <a href="/admin/taxonomy/taxonomy-term/edit/taxonomy_term_id/<?php echo $term['id']; ?>">Edit</a>
+            <a href="/admin/taxonomy/taxonomy-term/edit/taxonomy_term_id/<?php echo $term['id']; ?>"><?php echo __('Edit'); ?></a>
             |
-            <a href="/admin/taxonomy/taxonomy-term/delete/taxonomy_term_id/<?php echo $term['id']; ?>">Delete</a>
+            <a href="/admin/taxonomy/taxonomy-term/delete/taxonomy_term_id/<?php echo $term['id']; ?>"><?php echo __('Delete'); ?></a>
           </td>
         </tr>
       <?php endforeach; ?>

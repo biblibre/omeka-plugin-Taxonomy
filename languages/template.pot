@@ -1,0 +1,96 @@
+# Translation for the Taxonomy plugin for Omeka.
+# Copyright (C) 2015 BibLibre
+# This file is distributed under the same license as the Omeka package.
+# Julian Maurice <julian.maurice@biblibre.com>, 2015
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Taxonomy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-27 09:40+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: TaxonomyPlugin.php:56 TaxonomyPlugin.php:121
+msgid "Taxonomy"
+msgstr ""
+
+#: TaxonomyPlugin.php:64
+msgid "Taxonomy term"
+msgstr ""
+
+#: views/admin/taxonomy/add.php:1 views/admin/index/index.php:4
+msgid "Add a new taxonomy"
+msgstr ""
+
+#: views/admin/taxonomy/add.php:8 views/admin/taxonomy/edit.php:9
+#: views/admin/taxonomy-term/add.php:12 views/admin/taxonomy-term/edit.php:14
+msgid "Save"
+msgstr ""
+
+#: views/admin/taxonomy/edit.php:1
+msgid "Edit taxonomy"
+msgstr ""
+
+#: views/admin/taxonomy/delete.php:1
+msgid "Delete taxonomy"
+msgstr ""
+
+#: views/admin/taxonomy/delete.php:4
+#, php-format
+msgid "Are you sure you want to delete taxonomy %s ?"
+msgstr ""
+
+#: views/admin/index/index.php:1
+msgid "Taxonomies"
+msgstr ""
+
+#: views/admin/index/index.php:11 views/admin/taxonomy-term/list.php:12
+msgid "Actions"
+msgstr ""
+
+#: views/admin/index/index.php:19
+msgid "List terms"
+msgstr ""
+
+#: views/admin/taxonomy-term/add.php:1
+msgid "Add a new taxonomy term"
+msgstr ""
+
+#: views/admin/taxonomy-term/add.php:5 views/admin/taxonomy-term/edit.php:5
+#: views/admin/taxonomy-term/list.php:10
+msgid "Code"
+msgstr ""
+
+#: views/admin/taxonomy-term/add.php:8 views/admin/taxonomy-term/edit.php:9
+#: views/admin/taxonomy-term/list.php:11
+msgid "Value"
+msgstr ""
+
+#: views/admin/taxonomy-term/edit.php:1
+msgid "Edit taxonomy term"
+msgstr ""
+
+#: views/admin/taxonomy-term/delete.php:1
+msgid "Delete taxonomy term"
+msgstr ""
+
+#: views/admin/taxonomy-term/delete.php:4
+#, php-format
+msgid "Are you sure you want to delete term %1$s (%2$s) ?"
+msgstr ""
+
+#: views/admin/taxonomy-term/list.php:1
+#, php-format
+msgid "%s taxonomy terms"
+msgstr ""
+
+#: views/admin/taxonomy-term/list.php:4
+msgid "Add a new term"
+msgstr ""
