@@ -83,16 +83,17 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         $index = $args['index'];
         $name = "Elements[$element_id][$index][text]";
 
-        $terms = $db->getTable('TaxonomyTerm')->findByTaxonomyId(
-            $args['element_type_options']['taxonomy_id']
-        );
-        $options = array('' => '');
-        foreach ($terms as $term) {
-            $options[$term['code']] = $term['value'];
-        }
+        $taxonomy_id = $args['element_type_options']['taxonomy_id'];
+        if ($taxonomy_id) {
+            $terms = $db->getTable('TaxonomyTerm')->findByTaxonomyId($taxonomy_id);
+            $options = array('' => '');
+            foreach ($terms as $term) {
+                $options[$term['code']] = $term['value'];
+            }
 
-        $components['input'] = $view->formSelect($name, $args['value'], null, $options);
-        $components['html_checkbox'] = NULL;
+            $components['input'] = $view->formSelect($name, $args['value'], null, $options);
+            $components['html_checkbox'] = NULL;
+        }
 
         return $components;
     }
@@ -102,8 +103,11 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         $db = get_db();
 
         $taxonomy_id = $args['element_type_options']['taxonomy_id'];
-        $term = $db->getTable('TaxonomyTerm')->findByCode($taxonomy_id, $text);
-        return $term->value;
+        if ($taxonomy_id) {
+            $term = $db->getTable('TaxonomyTerm')->findByCode($taxonomy_id, $text);
+            $text = $term->value;
+        }
+        return $text;
     }
 
     public function hookOptionsForm($args) {
