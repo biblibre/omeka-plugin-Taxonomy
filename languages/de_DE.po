@@ -1,0 +1,96 @@
+# Translation for the Taxonomy plugin for Omeka.
+# Copyright (C) 2015 BibLibre
+# This file is distributed under the same license as the Omeka package.
+# Julian Maurice <julian.maurice@biblibre.com>, 2015
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Taxonomy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-27 09:40+0200\n"
+"PO-Revision-Date: 2015-06-12 13:04+0100\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.1\n"
+
+#: TaxonomyPlugin.php:56 TaxonomyPlugin.php:121
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: TaxonomyPlugin.php:64
+msgid "Taxonomy term"
+msgstr "Taxonomie-Begriff"
+
+#: views/admin/taxonomy/add.php:1 views/admin/taxonomy/list.php:4
+msgid "Add a new taxonomy"
+msgstr "Neue Taxonomie hinzufügen"
+
+#: views/admin/taxonomy/add.php:8 views/admin/taxonomy/edit.php:9
+#: views/admin/taxonomy-term/add.php:12 views/admin/taxonomy-term/edit.php:14
+msgid "Save"
+msgstr "Speichern"
+
+#: views/admin/taxonomy/edit.php:1
+msgid "Edit taxonomy"
+msgstr "Taxonomie editieren"
+
+#: views/admin/taxonomy/delete.php:1
+msgid "Delete taxonomy"
+msgstr "Taxonomie löschen"
+
+#: views/admin/taxonomy/delete.php:4
+#, php-format
+msgid "Are you sure you want to delete taxonomy %s ?"
+msgstr "Sind Sie sicher, dass Sie Taxonomie %s löschen wollen?"
+
+#: views/admin/taxonomy/list.php:1
+msgid "Taxonomies"
+msgstr "Taxonomien"
+
+#: views/admin/taxonomy/list.php:11 views/admin/taxonomy-term/list.php:12
+msgid "Actions"
+msgstr "Aktionen"
+
+#: views/admin/taxonomy/list.php:19
+msgid "List terms"
+msgstr "Begriffe auflisten"
+
+#: views/admin/taxonomy-term/add.php:1
+msgid "Add a new taxonomy term"
+msgstr "Neuen Taxonomie-Begriff hinzufügen"
+
+#: views/admin/taxonomy-term/add.php:5 views/admin/taxonomy-term/edit.php:5
+#: views/admin/taxonomy-term/list.php:10
+msgid "Code"
+msgstr "Schlüssel"
+
+#: views/admin/taxonomy-term/add.php:8 views/admin/taxonomy-term/edit.php:9
+#: views/admin/taxonomy-term/list.php:11
+msgid "Value"
+msgstr "Wert"
+
+#: views/admin/taxonomy-term/edit.php:1
+msgid "Edit taxonomy term"
+msgstr "Taxonomie-Begriff editieren"
+
+#: views/admin/taxonomy-term/delete.php:1
+msgid "Delete taxonomy term"
+msgstr "Taxonomie-Begriff löschen"
+
+#: views/admin/taxonomy-term/delete.php:4
+#, php-format
+msgid "Are you sure you want to delete term %1$s (%2$s) ?"
+msgstr "Sind Sie sicher, dass Sie den Begriff %1$s (%2$s) löschen wollen?"
+
+#: views/admin/taxonomy-term/list.php:1
+#, php-format
+msgid "%s taxonomy terms"
+msgstr "%s Taxonomie-Begriffe"
+
+#: views/admin/taxonomy-term/list.php:4
+msgid "Add a new term"
+msgstr "Neuen Begriff hinzufügen"
