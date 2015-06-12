@@ -1,7 +1,7 @@
 <?php echo head(array('title' => __('%s taxonomy terms', $taxonomy->name))); ?>
 <?php echo flash(); ?>
 
-<a href="/admin/taxonomy/taxonomy-term/add/taxonomy_id/<?php echo $taxonomy->id; ?>"><?php echo __('Add a new term'); ?></a>
+<a href="<?php echo url('taxonomy'); ?>/taxonomy-term/add/taxonomy_id/<?php echo $taxonomy->id; ?>"><?php echo __('Add a new term'); ?></a>
 
 <?php if (count($terms)): ?>
   <table>
@@ -18,9 +18,9 @@
           <td><?php echo $term['code']; ?></td>
           <td><?php echo $term['value']; ?></td>
           <td>
-            <a href="/admin/taxonomy/taxonomy-term/edit/taxonomy_term_id/<?php echo $term['id']; ?>"><?php echo __('Edit'); ?></a>
+            <a href="<?php echo url('taxonomy'); ?>/taxonomy-term/edit/taxonomy_term_id/<?php echo $term['id']; ?>"><?php echo __('Edit'); ?></a>
             |
-            <a href="/admin/taxonomy/taxonomy-term/delete/taxonomy_term_id/<?php echo $term['id']; ?>"><?php echo __('Delete'); ?></a>
+            <a href="<?php echo url('taxonomy'); ?>/taxonomy-term/delete/taxonomy_term_id/<?php echo $term['id']; ?>"><?php echo __('Delete'); ?></a>
           </td>
         </tr>
       <?php endforeach; ?>
