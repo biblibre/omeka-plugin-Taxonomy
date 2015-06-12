@@ -1,7 +1,7 @@
 <?php echo head(array('title' => __('Add a new taxonomy term'))); ?>
 <?php echo flash(); ?>
 
-<form action="/admin/taxonomy/taxonomy-term/save" method="post">
+<form action="<?php echo url('taxonomy'); ?>/taxonomy-term/save" method="post">
     <label for="code"><?php echo __('Code'); ?></label>
     <input type="text" name="code" id="code">
 

@@ -1,7 +1,7 @@
 <?php echo head(array('title' => __('Edit taxonomy term'))); ?>
 <?php echo flash(); ?>
 
-<form action="/admin/taxonomy/taxonomy-term/save" method="post">
+<form action="<?php echo url('taxonomy'); ?>/taxonomy-term/save" method="post">
     <label for="code"><?php echo __('Code'); ?></label>
     <input disabled="disabled" type="text" id="code" value="<?php echo $term->code; ?>">
     <input type="hidden" name="code" value="<?php echo $term->code; ?>">
