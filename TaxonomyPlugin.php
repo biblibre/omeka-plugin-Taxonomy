@@ -105,7 +105,9 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         $taxonomy_id = $args['element_type_options']['taxonomy_id'];
         if ($taxonomy_id) {
             $term = $db->getTable('TaxonomyTerm')->findByCode($taxonomy_id, $text);
-            $text = $term->value;
+            if ($term) {
+                $text = $term->value;
+            }
         }
         return $text;
     }
