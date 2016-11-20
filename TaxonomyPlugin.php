@@ -70,6 +70,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
             'label' => __('Taxonomy term'),
             'filters' => array(
                 'ElementInput' => array($this, 'filterElementInput'),
+                'Save' => array($this, 'filterSave'),
                 'Display' => array($this, 'filterDisplay'),
             ),
             'hooks' => array(
@@ -123,6 +124,44 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         return $components;
+    }
+
+    public function filterSave($text, $args)
+    {
+        $text = trim($text);
+        if (!strlen($text)) {
+            return $text;
+        }
+
+        if ($text == 'insert_new_term') {
+            return '';
+        }
+
+        $closed = empty($args['element_type_options']['open']);
+        if ($closed) {
+            return $text;
+        }
+
+        // Check if the term doesn't exist (prevent some issues).
+        $taxonomy_id = $args['element_type_options']['taxonomy_id'];
+        if (!$taxonomy_id) {
+            return $text;
+        }
+
+        $db = $this->_db;
+        $term = $db->getTable('TaxonomyTerm')->findByCode($taxonomy_id, $text);
+        if ($term) {
+            return $text;
+        }
+
+        // TODO The text should be already filtered by Omeka.
+        $term = new TaxonomyTerm();
+        $term->taxonomy_id = $taxonomy_id;
+        $term->code = $text;
+        $term->value = $text;
+        $term->save();
+
+        return $text;
     }
 
     public function filterDisplay($text, $args)
