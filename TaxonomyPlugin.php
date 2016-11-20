@@ -6,6 +6,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         'install',
         'uninstall',
         'initialize',
+        'admin_head',
     );
 
     protected $_filters = array(
@@ -50,6 +51,11 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         add_translation_source(dirname(__FILE__) . '/languages');
     }
 
+    public function hookAdminHead($args)
+    {
+        queue_js_file('taxonomy');
+    }
+
     public function filterAdminNavigationMain($nav)
     {
         $nav[] = array(
@@ -76,7 +82,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
     public function filterElementInput($components, $args)
     {
         $view = get_view();
-        $db = get_db();
+        $db = $this->_db;
 
         $element = $args['element'];
         $element_id = $element->id;
@@ -84,15 +90,36 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         $name = "Elements[$element_id][$index][text]";
 
         $taxonomy_id = $args['element_type_options']['taxonomy_id'];
+        $open = !empty($args['element_type_options']['open']);
         if ($taxonomy_id) {
             $terms = $db->getTable('TaxonomyTerm')->findByTaxonomyId($taxonomy_id);
             $options = array('' => '');
             foreach ($terms as $term) {
                 $options[$term['code']] = $term['value'];
             }
-
-            $components['input'] = $view->formSelect($name, $args['value'], null, $options);
-            $components['html_checkbox'] = NULL;
+            if ($open) {
+                $options['insert_new_term'] = '> ' . __('Add a new value') . ' <';
+            }
+            $components['input'] = $view->formSelect($name, $args['value'],
+                array('class' => 'taxonomy taxonomy-open'), $options);
+            if ($open) {
+                $components['input'] .= $view->formText(
+                    'taxonomy_input_' . $element_id,
+                    '',
+                    array(
+                        'placeholder' => __('New value'),
+                        'class' => 'taxonomy taxonomy-open',
+                        'style' => 'display: none',
+                ));
+                $components['input'] .= $view->formButton(
+                    'taxonomy_insert_' . $element_id,
+                    __('Enter new value'),
+                    array(
+                        'class' => 'taxonomy taxonomy-open button blue small',
+                        'style' => 'display: none',
+                ));
+            }
+            $components['html_checkbox'] = null;
         }
 
         return $components;
@@ -100,7 +127,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterDisplay($text, $args)
     {
-        $db = get_db();
+        $db = $this->_db;
 
         $taxonomy_id = $args['element_type_options']['taxonomy_id'];
         if ($taxonomy_id) {
@@ -112,9 +139,10 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         return $text;
     }
 
-    public function hookOptionsForm($args) {
+    public function hookOptionsForm($args)
+    {
         $view = get_view();
-        $db = get_db();
+        $db = $this->_db;
 
         $options = $args['element_type']['element_type_options'];
 
@@ -123,13 +151,34 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         foreach ($taxonomies as $taxonomy) {
             $taxonomy_options[$taxonomy->id] = $taxonomy->name;
         }
-
-        print $view->formLabel('taxonomy_id', __('Taxonomy')) . ' ';
-        print $view->formSelect(
-            'taxonomy_id',
-            isset($options) ? $options['taxonomy_id'] : '',
-            null,
-            $taxonomy_options
-        );
+?>
+    <div class="field">
+        <div class="two columns alpha">
+            <?php echo $view->formLabel('taxonomy_id', __('Taxonomy')); ?>
+        </div>
+        <div class="inputs five columns omega">
+            <?php echo $view->formSelect(
+                    'taxonomy_id',
+                    isset($options['taxonomy_id']) ? $options['taxonomy_id'] : '',
+                    null,
+                    $taxonomy_options
+                );
+            ?>
+        </div>
+    </div>
+    <div class="field">
+        <div class="two columns alpha">
+            <?php echo $view->formLabel('open',__('Open')); ?>
+        </div>
+        <div class="inputs five columns omega">
+            <?php echo $view->formCheckbox('open', true,
+                array('checked' => isset($options['open']) ? $options['open'] : 0));
+            ?>
+            <p class="explanation">
+                <?php echo __('If checked, the user will be able to add a new term via the form.'); ?>
+            </p>
+        </div>
+    </div>
+<?php
     }
 }
