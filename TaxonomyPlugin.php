@@ -99,7 +99,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
                 $options[$term['code']] = $term['value'];
             }
             if ($open) {
-                $options['insert_new_term'] = '> ' . __('Add a new value') . ' <';
+                $options['insert_new_term'] = '> ' . __('Add a new code') . ' <';
             }
             $components['input'] = $view->formSelect($name, $args['value'],
                 array('class' => 'taxonomy taxonomy-open'), $options);
@@ -108,13 +108,13 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
                     'taxonomy_input_' . $element_id,
                     '',
                     array(
-                        'placeholder' => __('New value'),
+                        'placeholder' => __('New code'),
                         'class' => 'taxonomy taxonomy-open',
                         'style' => 'display: none',
                 ));
                 $components['input'] .= $view->formButton(
                     'taxonomy_insert_' . $element_id,
-                    __('Enter new value'),
+                    __('Enter new code'),
                     array(
                         'class' => 'taxonomy taxonomy-open button blue small',
                         'style' => 'display: none',
@@ -190,34 +190,9 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         foreach ($taxonomies as $taxonomy) {
             $taxonomy_options[$taxonomy->id] = $taxonomy->name;
         }
-?>
-    <div class="field">
-        <div class="two columns alpha">
-            <?php echo $view->formLabel('taxonomy_id', __('Taxonomy')); ?>
-        </div>
-        <div class="inputs five columns omega">
-            <?php echo $view->formSelect(
-                    'taxonomy_id',
-                    isset($options['taxonomy_id']) ? $options['taxonomy_id'] : '',
-                    null,
-                    $taxonomy_options
-                );
-            ?>
-        </div>
-    </div>
-    <div class="field">
-        <div class="two columns alpha">
-            <?php echo $view->formLabel('open',__('Open')); ?>
-        </div>
-        <div class="inputs five columns omega">
-            <?php echo $view->formCheckbox('open', true,
-                array('checked' => isset($options['open']) ? $options['open'] : 0));
-            ?>
-            <p class="explanation">
-                <?php echo __('If checked, the user will be able to add a new term via the form.'); ?>
-            </p>
-        </div>
-    </div>
-<?php
+        echo $view->partial('taxonomy/option-form.php', array(
+            'options' => $options,
+            'taxonomy_options' => $taxonomy_options,
+        ));
     }
 }
