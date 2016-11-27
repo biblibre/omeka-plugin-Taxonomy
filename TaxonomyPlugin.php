@@ -93,11 +93,8 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         $taxonomy_id = $args['element_type_options']['taxonomy_id'];
         $open = !empty($args['element_type_options']['open']);
         if ($taxonomy_id) {
-            $terms = $db->getTable('TaxonomyTerm')->findByTaxonomyId($taxonomy_id);
-            $options = array('' => '');
-            foreach ($terms as $term) {
-                $options[$term['code']] = $term['value'];
-            }
+            $terms = $db->getTable('TaxonomyTerm')->listByTaxonomy($taxonomy_id);
+            $options = array('' => '') + $terms;
             if ($open) {
                 $options['insert_new_term'] = '> ' . __('Add a new code') . ' <';
             }
