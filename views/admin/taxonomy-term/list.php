@@ -1,8 +1,8 @@
 <?php
 $total = count($terms);
+$title = __('%s taxonomy terms (%s)', $taxonomy->name, $total ?: __('none'));
 echo head(array(
-    'title' => __('%s taxonomy terms (%s)',
-        $taxonomy->name, empty($total) ? __('none') : ($total == 1 ? __('%d term', $total) : __('%d terms', $total))),
+    'title' => $title,
  ));
 echo flash(); ?>
 
