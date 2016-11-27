@@ -26,7 +26,10 @@ jQuery(document).bind("omeka:elementformload", function() {
                 }
             });
             if (!exists) {
+                var insertNewTerm = select.children("option[value='insert_new_term']")[0].outerHTML;
+                select.children("option[value='insert_new_term']").remove();
                 select.append('<option value="' + val + '">' + val + '</option>');
+                select.append(insertNewTerm);
             }
             select.val(val);
             field.val('').hide();
