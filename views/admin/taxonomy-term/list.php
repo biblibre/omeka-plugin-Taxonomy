@@ -1,5 +1,10 @@
-<?php echo head(array('title' => __('%s taxonomy terms', $taxonomy->name))); ?>
-<?php echo flash(); ?>
+<?php
+$total = count($terms);
+echo head(array(
+    'title' => __('%s taxonomy terms (%s)',
+        $taxonomy->name, empty($total) ? __('none') : ($total == 1 ? __('%d term', $total) : __('%d terms', $total))),
+ ));
+echo flash(); ?>
 
 <a href="<?php echo url('taxonomy'); ?>/taxonomy-term/add/taxonomy_id/<?php echo $taxonomy->id; ?>"><?php echo __('Add a new term'); ?></a>
 
