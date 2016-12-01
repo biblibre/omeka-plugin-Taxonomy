@@ -6,6 +6,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         'install',
         'uninstall',
         'initialize',
+        'admin_head',
     );
 
     protected $_filters = array(
@@ -50,6 +51,11 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         add_translation_source(dirname(__FILE__) . '/languages');
     }
 
+    public function hookAdminHead($args)
+    {
+        queue_js_file('taxonomy');
+    }
+
     public function filterAdminNavigationMain($nav)
     {
         $nav[] = array(
@@ -64,6 +70,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
             'label' => __('Taxonomy term'),
             'filters' => array(
                 'ElementInput' => array($this, 'filterElementInput'),
+                'Save' => array($this, 'filterSave'),
                 'Display' => array($this, 'filterDisplay'),
             ),
             'hooks' => array(
@@ -76,7 +83,7 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
     public function filterElementInput($components, $args)
     {
         $view = get_view();
-        $db = get_db();
+        $db = $this->_db;
 
         $element = $args['element'];
         $element_id = $element->id;
@@ -84,23 +91,79 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         $name = "Elements[$element_id][$index][text]";
 
         $taxonomy_id = $args['element_type_options']['taxonomy_id'];
+        $open = !empty($args['element_type_options']['open']);
         if ($taxonomy_id) {
-            $terms = $db->getTable('TaxonomyTerm')->findByTaxonomyId($taxonomy_id);
-            $options = array('' => '');
-            foreach ($terms as $term) {
-                $options[$term['code']] = $term['value'];
+            $terms = $db->getTable('TaxonomyTerm')->listByTaxonomy($taxonomy_id);
+            $options = array('' => '') + $terms;
+            if ($open) {
+                $options['insert_new_term'] = '> ' . __('Add a new code') . ' <';
             }
-
-            $components['input'] = $view->formSelect($name, $args['value'], null, $options);
-            $components['html_checkbox'] = NULL;
+            $components['input'] = $view->formSelect($name, $args['value'],
+                array('class' => 'taxonomy taxonomy-open'), $options);
+            if ($open) {
+                $components['input'] .= $view->formText(
+                    'taxonomy_input_' . $element_id,
+                    '',
+                    array(
+                        'placeholder' => __('New code'),
+                        'class' => 'taxonomy taxonomy-open',
+                        'style' => 'display: none',
+                ));
+                $components['input'] .= $view->formButton(
+                    'taxonomy_insert_' . $element_id,
+                    __('Enter new code'),
+                    array(
+                        'class' => 'taxonomy taxonomy-open button blue small',
+                        'style' => 'display: none',
+                ));
+            }
+            $components['html_checkbox'] = null;
         }
 
         return $components;
     }
 
+    public function filterSave($text, $args)
+    {
+        $text = trim($text);
+        if (!strlen($text)) {
+            return $text;
+        }
+
+        if ($text == 'insert_new_term') {
+            return '';
+        }
+
+        $closed = empty($args['element_type_options']['open']);
+        if ($closed) {
+            return $text;
+        }
+
+        // Check if the term doesn't exist (prevent some issues).
+        $taxonomy_id = $args['element_type_options']['taxonomy_id'];
+        if (!$taxonomy_id) {
+            return $text;
+        }
+
+        $db = $this->_db;
+        $term = $db->getTable('TaxonomyTerm')->findByCode($taxonomy_id, $text);
+        if ($term) {
+            return $text;
+        }
+
+        // TODO The text should be already filtered by Omeka.
+        $term = new TaxonomyTerm();
+        $term->taxonomy_id = $taxonomy_id;
+        $term->code = $text;
+        $term->value = $text;
+        $term->save();
+
+        return $text;
+    }
+
     public function filterDisplay($text, $args)
     {
-        $db = get_db();
+        $db = $this->_db;
 
         $taxonomy_id = $args['element_type_options']['taxonomy_id'];
         if ($taxonomy_id) {
@@ -112,9 +175,10 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         return $text;
     }
 
-    public function hookOptionsForm($args) {
+    public function hookOptionsForm($args)
+    {
         $view = get_view();
-        $db = get_db();
+        $db = $this->_db;
 
         $options = $args['element_type']['element_type_options'];
 
@@ -123,13 +187,9 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
         foreach ($taxonomies as $taxonomy) {
             $taxonomy_options[$taxonomy->id] = $taxonomy->name;
         }
-
-        print $view->formLabel('taxonomy_id', __('Taxonomy')) . ' ';
-        print $view->formSelect(
-            'taxonomy_id',
-            isset($options) ? $options['taxonomy_id'] : '',
-            null,
-            $taxonomy_options
-        );
+        echo $view->partial('taxonomy/option-form.php', array(
+            'options' => $options,
+            'taxonomy_options' => $taxonomy_options,
+        ));
     }
 }
