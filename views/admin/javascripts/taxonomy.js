@@ -5,9 +5,11 @@ jQuery(document).bind("omeka:elementformload", function() {
             if (val == 'insert_new_term') {
                 jQuery(this).next('input.taxonomy-open').show();
                 jQuery(this).parent().find('button.taxonomy-open').show();
+                jQuery(this).parent().find('p.taxonomy-open').show();
             } else {
                 jQuery(this).next('input.taxonomy-open').hide();
                 jQuery(this).parent().find('button.taxonomy-open').hide();
+                jQuery(this).parent().find('p.taxonomy-open').hide();
             }
         }).change();
 
@@ -34,6 +36,7 @@ jQuery(document).bind("omeka:elementformload", function() {
             select.val(val);
             field.val('').hide();
             jQuery(this).hide();
+            jQuery(this).parent().find('p.taxonomy-open').hide();
         });
     });
 });
