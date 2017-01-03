@@ -116,6 +116,10 @@ class TaxonomyPlugin extends Omeka_Plugin_AbstractPlugin
                         'class' => 'taxonomy taxonomy-open button blue small',
                         'style' => 'display: none',
                 ));
+                $components['input'] .= $view->formNote(null,
+                    '<p class="taxonomy-open description help-block" style="display: none;">'
+                        . html_escape(__('Note: Only the selected entry will be permanently added to the list.'))
+                        . '</p>');
             }
             $components['html_checkbox'] = null;
         }
